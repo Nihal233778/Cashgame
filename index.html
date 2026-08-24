@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Cash App · TMA</title>
+
+    <!-- Telegram WebApp SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <!-- Monetix Ads Network -->
+    <script src="https://www.monetixads.online/ads.js" data-mxid="MX-A07B4544">
+    </script>
+
+    <style>
+        /* ── Cash App inspired theme with Telegram fallbacks ── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cash-green: #00d632;
+            --cash-dark: #0b0b0b;
+            --cash-gray: #f5f5f5;
+            --cash-light-gray: #e8e8e8;
+            --cash-white: #ffffff;
+
+            /* Telegram overrides (will be set by JS) */
+            --tg-bg: var(--tg-theme-bg-color, #ffffff);
+            --tg-text: var(--tg-theme-text-color, #0b0b0b);
+            --tg-hint: var(--tg-theme-hint-color, #8e8e93);
+            --tg-secondary: var(--tg-theme-secondary-bg-color, #f5f5f5);
+            --tg-button: var(--tg-theme-button-color, #00d632);
+            --tg-button-text: var(--tg-theme-button-text-color, #ffffff);
+            --tg-separator: var(--tg-theme-separator-color, #e5e5ea);
+        }
+
+        body {
+            font-family: -apple-system, 'Helvetica Neue', sans-serif;
+            background: var(--tg-bg);
+            color: var(--tg-text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px 16px 24px;
+        }
+
+        .app-container {
+            max-width: 420px;
+            width: 100%;
+        }
+
+        /* ── header ── */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 0 12px;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: var(--tg-text);
+        }
+
+        .header .user-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--cash-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 18px;
+            box-shadow: 0 2px 8px rgba(0, 214, 50, 0.3);
+        }
+
+        /* ── balance card ── */
+        .balance-card {
+            background: var(--tg-secondary);
+            border-radius: 28px;
+            padding: 28px 24px 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--tg-separator);
+        }
+
+        .balance-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--tg-hint);
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+
+        .balance-amount {
+            font-size: 44px;
+            font-weight: 700;
+            color: var(--tg-text);
+            margin: 4px 0 12px;
+            letter-spacing: -1px;
+        }
+
+        .balance-amount .currency {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--tg-hint);
+            margin-right: 4px;
+        }
+
+        .balance-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 14px 0;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.1s, opacity 0.2s;
+            touch-action: manipulation;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: var(--tg-button);
+            color: var(--tg-button-text);
+        }
+
+        .action-btn:active {
+            transform: scale(0.96);
+            opacity: 0.85;
+        }
+
+        .action-btn.outline {
+            background: transparent;
+            color: var(--tg-text);
+            border: 1.5px solid var(--tg-separator);
+        }
+
+        .action-btn.outline:active {
+            background: var(--tg-separator);
+        }
+
+        /* ── ad earn button ── */
+        .earn-section {
+            margin-bottom: 20px;
+        }
+
+        .earn-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--cash-green);
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 4px 16px rgba(0, 214, 50, 0.25);
+            touch-action: manipulation;
+        }
+
+        .earn-btn:active {
+            transform: scale(0.97);
+            opacity: 0.85;
+        }
+        .earn-btn:disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .earn-btn .badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2px 12px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* ── status toast ── */
+        .status {
+            margin: 12px 0 16px;
+            font-size: 14px;
+            color: var(--tg-hint);
+            min-height: 22px;
+            text-align: center;
+            transition: color 0.2s;
+        }
+        .status.success {
+            color: var(--cash-green);
+        }
+        .status.error {
+            color: #ff3b30;
+        }
+        .status.info {
+            color: var(--tg-button);
+        }
+
+        /* ── transaction history ── */
+        .history {
+            background: var(--tg-secondary);
+            border-radius: 20px;
+            padding: 18px 16px;
+            border: 1px solid var(--tg-separator);
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .history-header span {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--tg-hint);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 4px;
+            border-bottom: 1px solid var(--tg-separator);
+            font-size: 14px;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-item .left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .history-item .left .emoji {
+            font-size: 20px;
+        }
+
+        .history-item .left .desc {
+            font-weight: 500;
+        }
+
+        .history-item .left .time {
+            font-size: 12px;
+            color: var(--tg-hint);
+        }
+
+        .history-item .amount {
+            font-weight: 700;
+        }
+        .history-item .amount.positive {
+            color: var(--cash-green);
+        }
+        .history-item .amount.negative {
+            color: #ff3b30;
+        }
+
+        .empty-history {
+            text-align: center;
+            color: var(--tg-hint);
+            padding: 20px 0;
+            font-size: 14px;
+        }
+
+        /* ── modal overlay (simple) ── */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            padding: 24px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-box {
+            background: var(--tg-bg);
+            border-radius: 28px;
+            padding: 32px 24px 24px;
+            max-width: 340px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .modal-box h2 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .modal-box p {
+            color: var(--tg-hint);
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+
+        .modal-box input {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 14px;
+            border: 1.5px solid var(--tg-separator);
+            background: var(--tg-secondary);
+            color: var(--tg-text);
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            outline: none;
+            margin-bottom: 16px;
+        }
+
+        .modal-box input:focus {
+            border-color: var(--cash-green);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .modal-actions button {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .modal-actions .confirm {
+            background: var(--cash-green);
+            color: #fff;
+        }
+
+        .modal-actions .cancel {
+            background: var(--tg-separator);
+            color: var(--tg-text);
+        }
+
+        .modal-actions button:active {
+            opacity: 0.7;
+        }
+
+        /* ── Telegram theme var overrides (set by JS) ── */
+        .tg-light {
+            --tg-bg: #ffffff;
+            --tg-text: #0b0b0b;
+            --tg-hint: #8e8e93;
+            --tg-secondary: #f5f5f5;
+            --tg-separator: #e5e5ea;
+            --tg-button: #00d632;
+            --tg-button-text: #ffffff;
+        }
+
+        .tg-dark {
+            --tg-bg: #0b0b0b;
+            --tg-text: #ffffff;
+            --tg-hint: #8e8e93;
+            --tg-secondary: #1c1c1e;
+            --tg-separator: #2c2c2e;
+            --tg-button: #00d632;
+            --tg-button-text: #0b0b0b;
+        }
+
+        /* ── responsive tweaks ── */
+        @media (max-width: 400px) {
+            .balance-amount {
+                font-size: 34px;
+            }
+            .action-btn {
+                font-size: 14px;
+                padding: 12px 0;
+            }
+            .earn-btn {
+                font-size: 16px;
+                padding: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+
+        <!-- Header -->
+        <div class="header">
+            <h1>Cash</h1>
+            <div class="user-icon">👤</div>
+        </div>
+
+        <!-- Balance Card -->
+        <div class="balance-card">
+            <div class="balance-label">Available balance</div>
+            <div class="balance-amount">
+                <span class="currency">$</span><span id="balanceDisplay">0.00</span>
+            </div>
+            <div class="balance-actions">
+                <button class="action-btn" id="payBtn">💸 Pay</button>
+                <button class="action-btn outline" id="requestBtn">📲 Request</button>
+            </div>
+        </div>
+
+        <!-- Earn Section (Watch Ad) -->
+        <div class="earn-section">
+            <button class="earn-btn" id="watchAdBtn">
+                <span>📺</span> Watch Ad & Earn <span class="badge">+$0.50</span>
+            </button>
+            <div class="status" id="statusMsg">Tap to earn free cash</div>
+        </div>
+
+        <!-- Transaction History -->
+        <div class="history">
+            <div class="history-header">
+                <span>Recent activity</span>
+                <span style="font-weight:400;font-size:12px;color:var(--tg-hint);">💰</span>
+            </div>
+            <div class="history-list" id="historyList">
+                <div class="empty-history">No transactions yet</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal (Pay / Request) -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-box">
+            <h2 id="modalTitle">Send Money</h2>
+            <p id="modalDesc">Enter amount to send</p>
+            <input type="number" id="modalAmount" placeholder="0.00" step="0.01" min="0.01" />
+            <div class="modal-actions">
+                <button class="confirm" id="modalConfirm">Confirm</button>
+                <button class="cancel" id="modalCancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ── Telegram WebApp ──
+            const tg = window.Telegram?.WebApp;
+            if (tg) {
+                tg.ready();
+                tg.expand();
+                // apply theme
+                const theme = tg.themeParams;
+                if (theme) {
+                    const root = document.documentElement;
+                    if (theme.bg_color) root.style.setProperty('--tg-bg', theme.bg_color);
+                    if (theme.text_color) root.style.setProperty('--tg-text', theme.text_color);
+                    if (theme.hint_color) root.style.setProperty('--tg-hint', theme.hint_color);
+                    if (theme.secondary_bg_color) root.style.setProperty('--tg-secondary', theme.secondary_bg_color);
+                    if (theme.button_color) root.style.setProperty('--tg-button', theme.button_color);
+                    if (theme.button_text_color) root.style.setProperty('--tg-button-text', theme.button_text_color);
+                    if (theme.separator_color) root.style.setProperty('--tg-separator', theme.separator_color);
+                }
+                // dark/light class for extra fallback
+                if (tg.colorScheme === 'dark') {
+                    document.body.classList.add('tg-dark');
+                } else {
+                    document.body.classList.add('tg-light');
+                }
+            }
+
+            // ── DOM refs ──
+            const balanceEl = document.getElementById('balanceDisplay');
+            const statusEl = document.getElementById('statusMsg');
+            const watchBtn = document.getElementById('watchAdBtn');
+            const historyList = document.getElementById('historyList');
+            const payBtn = document.getElementById('payBtn');
+            const requestBtn = document.getElementById('requestBtn');
+
+            // Modal
+            const modalOverlay = document.getElementById('modalOverlay');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDesc = document.getElementById('modalDesc');
+            const modalAmount = document.getElementById('modalAmount');
+            const modalConfirm = document.getElementById('modalConfirm');
+            const modalCancel = document.getElementById('modalCancel');
+
+            // ── State ──
+            let balance = 0.00;
+            let isAdLoading = false;
+            let transactions = []; // { type, amount, timestamp, note }
+
+            // ── Helpers ──
+            function formatCurrency(val) {
+                return val.toFixed(2);
+            }
+
+            function formatTime(ts) {
+                const d = new Date(ts);
+                return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            }
+
+            function updateUI() {
+                balanceEl.textContent = formatCurrency(balance);
+                renderHistory();
+            }
+
+            function renderHistory() {
+                if (transactions.length === 0) {
+                    historyList.innerHTML = `<div class="empty-history">No transactions yet</div>`;
+                    return;
+                }
+                const items = transactions.slice().reverse().slice(0, 10);
+                let html = '';
+                for (const t of items) {
+                    const sign = t.type === 'received' ? '+' : '-';
+                    const cls = t.type === 'received' ? 'positive' : 'negative';
+                    const emoji = t.type === 'received' ? '⬇️' : (t.type === 'sent' ? '⬆️' : '🎯');
+                    const label = t.type === 'received' ? 'Received' : (t.type === 'sent' ? 'Sent' : 'Earned');
+                    html += `
+                        <div class="history-item">
+                            <div class="left">
+                                <span class="emoji">${emoji}</span>
+                                <div>
+                                    <div class="desc">${label} ${t.note ? '· ' + t.note : ''}</div>
+                                    <div class="time">${formatTime(t.timestamp)}</div>
+                                </div>
+                            </div>
+                            <div class="amount ${cls}">${sign}$${formatCurrency(t.amount)}</div>
+                        </div>
+                    `;
+                }
+                historyList.innerHTML = html;
+            }
+
+            function addTransaction(type, amount, note = '') {
+                transactions.push({ type, amount, timestamp: Date.now(), note });
+                if (transactions.length > 20) transactions = transactions.slice(-20);
+                updateUI();
+            }
+
+            function setStatus(msg, type = 'info') {
+                statusEl.textContent = msg;
+                statusEl.className = 'status ' + type;
+            }
+
+            let statusTimeout = null;
+
+            function setStatusTemporary(msg, type = 'info', duration = 3000) {
+                setStatus(msg, type);
+                if (statusTimeout) clearTimeout(statusTimeout);
+                statusTimeout = setTimeout(() => {
+                    setStatus('Tap to earn free cash', '');
+                    statusTimeout = null;
+                }, duration);
+            }
+
+            function haptic(style = 'light') {
+                if (tg) {
+                    if (style === 'success') tg.HapticFeedback?.notificationOccurred?.('success');
+                    else if (style === 'error') tg.HapticFeedback?.notificationOccurred?.('error');
+                    else if (style === 'warning') tg.HapticFeedback?.notificationOccurred?.('warning');
+                    else tg.HapticFeedback?.impactOccurred?.(style);
+                }
+            }
+
+            // ── Grant reward (from ad) ──
+            function grantReward(amount = 0.50) {
+                balance += amount;
+                addTransaction('received', amount, 'Ad reward');
+                setStatusTemporary(`🎉 +$${formatCurrency(amount)} earned!`, 'success', 2500);
+                haptic('success');
+            }
+
+            // ── Watch Ad ──
+            function watchAd() {
+                if (isAdLoading) {
+                    setStatusTemporary('⏳ Please wait...', 'info', 1500);
+                    return;
+                }
+
+                if (typeof window.showRewardAd !== 'function') {
+                    setStatusTemporary('⚠️ Ad SDK not loaded. Refresh.', 'error', 3000);
+                    return;
+                }
+
+                isAdLoading = true;
+                watchBtn.disabled = true;
+                setStatus('📺 Loading ad...', 'info');
+                haptic('medium');
+
+                try {
+                    window.showRewardAd(function(res) {
+                        isAdLoading = false;
+                        watchBtn.disabled = false;
+
+                        console.log('[Ad] callback:', res);
+
+                        if (res && res.status === 'completed') {
+                            grantReward(0.50);
+                        } else if (res && res.status === 'closed') {
+                            setStatusTemporary('⏹️ Ad closed early — try again', 'info', 2500);
+                            haptic('warning');
+                        } else {
+                            setStatusTemporary('⚠️ Ad not completed. Try again.', 'error', 2500);
+                            haptic('error');
+                        }
+                    });
+                } catch (err) {
+                    console.error('[Ad] Error:', err);
+                    isAdLoading = false;
+                    watchBtn.disabled = false;
+                    setStatusTemporary('❌ Ad error. Refresh.', 'error', 3000);
+                    haptic('error');
+                }
+
+                // safety timeout
+                setTimeout(() => {
+                    if (isAdLoading) {
+                        isAdLoading = false;
+                        watchBtn.disabled = false;
+                        setStatusTemporary('⏱️ Ad timed out. Try again.', 'error', 3000);
+                        haptic('error');
+                    }
+                }, 15000);
+            }
+
+            // ── Modal logic ──
+            let modalResolve = null;
+            let modalType = 'pay'; // 'pay' or 'request'
+
+            function showModal(type) {
+                return new Promise((resolve) => {
+                    modalType = type;
+                    if (type === 'pay') {
+                        modalTitle.textContent = '💸 Send Money';
+                        modalDesc.textContent = 'Enter amount to send';
+                    } else {
+                        modalTitle.textContent = '📲 Request Money';
+                        modalDesc.textContent = 'Enter amount to request';
+                    }
+                    modalAmount.value = '';
+                    modalOverlay.classList.add('active');
+                    modalAmount.focus();
+                    modalResolve = resolve;
+                });
+            }
+
+            function closeModal() {
+                modalOverlay.classList.remove('active');
+                if (modalResolve) {
+                    modalResolve(null);
+                    modalResolve = null;
+                }
+            }
+
+            modalCancel.addEventListener('click', closeModal);
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) closeModal();
+            });
+
+            modalConfirm.addEventListener('click', () => {
+                const val = parseFloat(modalAmount.value);
+                if (isNaN(val) || val <= 0) {
+                    setStatusTemporary('⚠️ Enter a valid amount', 'error', 1500);
+                    haptic('error');
+                    return;
+                }
+                if (modalResolve) {
+                    modalResolve(val);
+                    modalResolve = null;
+                }
+                closeModal();
+            });
+
+            // ── Pay / Request actions ──
+            async function handlePay() {
+                const amount = await showModal('pay');
+                if (amount === null) return;
+                if (amount > balance) {
+                    setStatusTemporary('❌ Insufficient balance', 'error', 2000);
+                    haptic('error');
+                    return;
+                }
+                balance -= amount;
+                addTransaction('sent', amount, 'Payment');
+                setStatusTemporary(`💸 Sent $${formatCurrency(amount)}`, 'info', 2000);
+                haptic('light');
+            }
+
+            async function handleRequest() {
+                const amount = await showModal('request');
+                if (amount === null) return;
+                // Simulate receiving
+                balance += amount;
+                addTransaction('received', amount, 'Request fulfilled');
+                setStatusTemporary(`📲 Received $${formatCurrency(amount)}`, 'success', 2000);
+                haptic('success');
+            }
+
+            // ── Event binding ──
+            watchBtn.addEventListener('click', watchAd);
+            payBtn.addEventListener('click', handlePay);
+            requestBtn.addEventListener('click', handleRequest);
+
+            // ── Init ──
+            updateUI();
+            setStatus('✅ Ready — tap to earn', 'info');
+
+            // hide main button if present
+            if (tg) tg.MainButton?.hide?.();
+
+            // ── Debug expose ──
+            window.__app = { balance: () => balance, transactions: () => transactions, grantReward };
+
+            console.log('[Cash TMA] Ready. Watch ads to earn $0.50 each.');
+        })();
+    </script>
+
+</body>
+</html>
