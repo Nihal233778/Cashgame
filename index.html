@@ -1,5 +1,4 @@
-             
-      <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -8,7 +7,7 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://www.monetixads.online/ads.js" data-mxid="MX-CDE2FE45"></script>
     <style>
-        /* (All original styles remain unchanged) */
+        /* (all styles are exactly the same as before – keep them unchanged) */
         :root {
             --bg-primary: #0a0a0a;
             --bg-secondary: #141414;
@@ -378,7 +377,6 @@
             color: var(--text-primary);
             font-weight: 600;
         }
-        /* Toggle for auto-mode */
         .auto-toggle {
             display: flex;
             align-items: center;
@@ -949,10 +947,10 @@
                     </div>
                 </div>
 
-                <!-- Ad Card (with auto-toggle) -->
+                <!-- Ad Card -->
                 <div class="ad-card" id="adCard">
                     <div class="title">🎬 Watch & Earn</div>
-                    <div class="subtitle">Watch a short ad and get free money added to your balance instantly</div>
+                    <div class="subtitle">Auto‑loop is ON – ads will play one after another</div>
                     <div class="reward-row">
                         <div>
                             <div class="reward-amount">
@@ -966,15 +964,15 @@
                             <span>▶</span> Watch Now
                         </button>
                     </div>
-                    <!-- Auto-mode toggle -->
+                    <!-- Auto-toggle (checked by default) -->
                     <div class="auto-toggle">
-                        <input type="checkbox" id="autoToggle">
-                        <span>Auto‑watch <span class="status off" id="autoStatus">OFF</span></span>
+                        <input type="checkbox" id="autoToggle" checked>
+                        <span>Auto‑watch <span class="status on" id="autoStatus">ON</span></span>
                     </div>
                     <div class="ad-stats">
                         <span class="stat">⏱️ <span id="cooldownDisplay">Ready</span></span>
                         <span class="stat">💰 Earned: <strong id="totalAdEarned">$0.00</strong></span>
-                        <span class="stat" id="autoCounter" style="display:none;">🔄 Auto: <strong id="autoCountNum">0</strong></span>
+                        <span class="stat" id="autoCounter">🔄 Auto: <strong id="autoCountNum">0</strong></span>
                     </div>
                 </div>
 
@@ -1165,8 +1163,8 @@
                 cooldownSeconds: 30,
                 dayStart: new Date().setHours(0, 0, 0, 0),
             },
-            // New: auto-mode state
-            autoMode: false,
+            // 🔥 AUTO-MODE IS NOW ON BY DEFAULT
+            autoMode: true,
             autoCount: 0,
         };
 
@@ -1190,8 +1188,7 @@
                         data.adRewards.countToday = 0;
                         data.adRewards.dayStart = today;
                     }
-                    // Ensure auto fields exist
-                    if (data.autoMode === undefined) data.autoMode = false;
+                    if (data.autoMode === undefined) data.autoMode = true; // default to true
                     if (data.autoCount === undefined) data.autoCount = 0;
                     return data;
                 }
@@ -1270,7 +1267,7 @@
         let currentFilter = 'all';
         let adCooldownTimer = null;
         let isAdLoading = false;
-        let autoScheduled = false; // to prevent multiple schedules
+        let autoScheduled = false;
 
         // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         //  AD REWARD SYSTEM
@@ -1291,31 +1288,26 @@
             return getTimeRemaining(cooldownUntil);
         }
 
-        // ── Schedule next ad (auto-loop) ──
         function scheduleNextAd() {
             if (!state.autoMode) {
                 autoScheduled = false;
                 return;
             }
-            if (autoScheduled) return; // already scheduled
+            if (autoScheduled) return;
             const remaining = getCooldownRemaining();
-            const delay = Math.max(remaining * 1000, 1000); // at least 1s
+            const delay = Math.max(remaining * 1000, 1000);
 
             autoScheduled = true;
             setTimeout(() => {
                 autoScheduled = false;
-                // Check if still in auto mode and cooldown is over
                 if (state.autoMode && canWatchAd()) {
-                    // Trigger the ad
                     watchAd();
                 } else if (state.autoMode) {
-                    // If not ready, reschedule (cooldown may have been reset)
                     scheduleNextAd();
                 }
             }, delay);
         }
 
-        // ── UI updates ──
         function updateAdUI() {
             const btn = document.getElementById('watchAdBtn');
             const cooldownEl = document.getElementById('cooldownDisplay');
@@ -1336,10 +1328,7 @@
                 navBadge.textContent = '✦';
             }
 
-            // Auto toggle
-            if (autoToggle) {
-                autoToggle.checked = state.autoMode;
-            }
+            if (autoToggle) autoToggle.checked = state.autoMode;
             if (autoStatus) {
                 autoStatus.textContent = state.autoMode ? 'ON' : 'OFF';
                 autoStatus.className = 'status ' + (state.autoMode ? 'on' : 'off');
@@ -1347,11 +1336,8 @@
             if (autoCounter) {
                 autoCounter.style.display = state.autoMode ? 'inline' : 'none';
             }
-            if (autoCountNum) {
-                autoCountNum.textContent = state.autoCount;
-            }
+            if (autoCountNum) autoCountNum.textContent = state.autoCount;
 
-            // Button state
             const canWatch = canWatchAd();
             if (btn) {
                 if (isAdLoading) {
@@ -1375,7 +1361,6 @@
                 }
             }
 
-            // Cooldown display
             if (cooldownEl) {
                 if (canWatch) {
                     cooldownEl.textContent = state.autoMode ? '⏳ Auto‑ready' : 'Ready to watch!';
@@ -1387,19 +1372,16 @@
                 }
             }
 
-            // Profile stats
             const statAd = document.getElementById('statAdEarned');
             if (statAd) statAd.textContent = formatCurrency(state.adRewards.totalEarned);
         }
 
-        // ── Watch Ad (triggered by click or auto) ──
         function watchAd() {
             if (!canWatchAd()) {
                 showToast('Please wait for cooldown', 'error');
                 return;
             }
 
-            // Check SDK
             if (typeof window.showRewardAd !== 'function') {
                 showToast('Ad SDK not loaded. Please try again.', 'error');
                 console.warn('showRewardAd not available');
@@ -1428,7 +1410,6 @@
                     } else {
                         showToast('Ad was not completed. Try again.', 'error');
                         updateAdUI();
-                        // If auto-mode is on, schedule next attempt after a short delay
                         if (state.autoMode) {
                             setTimeout(() => scheduleNextAd(), 5000);
                         }
@@ -1452,10 +1433,7 @@
             state.adRewards.countToday += 1;
             state.adRewards.lastWatchTime = Date.now();
 
-            // Auto count
-            if (state.autoMode) {
-                state.autoCount += 1;
-            }
+            if (state.autoMode) state.autoCount += 1;
 
             state.transactions.unshift({
                 id: generateId(),
@@ -1475,10 +1453,8 @@
 
             try { tg?.HapticFeedback?.impactOccurred('medium'); } catch (_) {}
 
-            // Start cooldown timer for UI
             startCooldownTimer();
 
-            // If auto-mode is on, schedule the next ad after cooldown
             if (state.autoMode) {
                 scheduleNextAd();
             }
@@ -1492,7 +1468,6 @@
                     clearInterval(adCooldownTimer);
                     updateAdUI();
                 } else {
-                    // Update display
                     const cooldownEl = document.getElementById('cooldownDisplay');
                     if (cooldownEl) {
                         cooldownEl.textContent = `⏱️ ${remaining}s cooldown`;
@@ -1506,21 +1481,14 @@
             }, 1000);
         }
 
-        // ── Toggle auto-mode ──
         function toggleAutoMode() {
             state.autoMode = !state.autoMode;
             if (!state.autoMode) {
-                // Stop any scheduled auto
                 autoScheduled = false;
-                // Reset auto count? Maybe keep it for record.
-                // Do not reset autoCount.
             } else {
-                // If auto-mode turned on, check if we can start immediately
                 if (canWatchAd()) {
-                    // Trigger ad immediately
                     watchAd();
                 } else {
-                    // Schedule after cooldown
                     scheduleNextAd();
                 }
             }
@@ -1807,7 +1775,7 @@
             if (confirm('Reset all demo data?')) {
                 state = JSON.parse(JSON.stringify(defaultState));
                 state.adRewards.dayStart = new Date().setHours(0, 0, 0, 0);
-                state.autoMode = false;
+                state.autoMode = true;
                 state.autoCount = 0;
                 saveState(state);
                 renderAll();
@@ -1815,6 +1783,11 @@
                 showToast('Demo data reset', 'success');
                 clearInterval(adCooldownTimer);
                 autoScheduled = false;
+                // Restart auto-loop
+                if (state.autoMode) {
+                    if (canWatchAd()) watchAd();
+                    else scheduleNextAd();
+                }
                 updateAdUI();
             }
         }
@@ -1823,7 +1796,7 @@
             if (confirm('Log out?')) {
                 state = JSON.parse(JSON.stringify(defaultState));
                 state.adRewards.dayStart = new Date().setHours(0, 0, 0, 0);
-                state.autoMode = false;
+                state.autoMode = true;
                 state.autoCount = 0;
                 saveState(state);
                 renderAll();
@@ -1831,6 +1804,10 @@
                 showToast('Logged out', 'success');
                 clearInterval(adCooldownTimer);
                 autoScheduled = false;
+                if (state.autoMode) {
+                    if (canWatchAd()) watchAd();
+                    else scheduleNextAd();
+                }
                 updateAdUI();
                 try { tg?.close(); } catch (_) {}
             }
@@ -1869,7 +1846,6 @@
 
             renderAll();
 
-            // Bottom Nav
             document.querySelectorAll('.bottom-nav .tab').forEach(tab => {
                 tab.addEventListener('click', () => {
                     const screen = tab.dataset.tab;
@@ -1878,7 +1854,6 @@
                 });
             });
 
-            // Quick Actions
             document.querySelectorAll('.quick-actions .action').forEach(el => {
                 el.addEventListener('click', () => {
                     const screen = el.dataset.screen;
@@ -1888,11 +1863,8 @@
 
             document.getElementById('watchAdAction')?.addEventListener('click', watchAd);
             document.getElementById('watchAdBtn')?.addEventListener('click', watchAd);
-
-            // Auto-toggle
             document.getElementById('autoToggle')?.addEventListener('change', toggleAutoMode);
 
-            // Back buttons
             document.querySelectorAll('[data-back]').forEach(el => {
                 el.addEventListener('click', () => {
                     navigateTo('home');
@@ -1983,22 +1955,20 @@
             updateSafeAreas();
             window.addEventListener('resize', updateSafeAreas);
 
-            // If auto-mode was saved as ON, resume scheduling
+            // ⚡ Start auto-loop immediately on load
             if (state.autoMode) {
                 if (canWatchAd()) {
-                    // Immediately watch if possible
-                    watchAd();
+                    setTimeout(watchAd, 1000); // small delay to let UI settle
                 } else {
                     scheduleNextAd();
                 }
             }
 
-            // Start cooldown timer if needed
             if (!canWatchAd()) {
                 startCooldownTimer();
             }
 
-            console.log('💰 Cash App TMA v2.0 with Auto‑Loop Ad Rewards ready');
+            console.log('💰 Auto-loop enabled – ads will play one after another');
             console.log('📊 Ad SDK available:', typeof window.showRewardAd === 'function');
         }
 
@@ -2010,5 +1980,6 @@
     </script>
 </body>
 </html>            
-        
+                                  
+                                                                   
                                                     
