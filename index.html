@@ -1,20 +1,14 @@
- <!DOCTYPE html>
+             
+      <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Cash App · Earn</title>
-
-    <!-- Telegram WebApp SDK -->
-    <script src="https://telegram.org/js/telegram-web-app.js">
-    </script>
-
-    <!-- Monetix Ads -->
-    <script src="https://www.monetixads.online/ads.js" data-mxid="MX-CDE2FE45">
-    </script>
-
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://www.monetixads.online/ads.js" data-mxid="MX-CDE2FE45"></script>
     <style>
-        /* ─── CSS Variables ─── */
+        /* (All original styles remain unchanged) */
         :root {
             --bg-primary: #0a0a0a;
             --bg-secondary: #141414;
@@ -41,8 +35,6 @@
             --nav-height: 72px;
             --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
-        /* ─── Reset ─── */
         *,
         *::before,
         *::after {
@@ -50,7 +42,6 @@
             margin: 0;
             padding: 0;
         }
-
         html,
         body {
             height: 100%;
@@ -61,7 +52,6 @@
             user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
-
         ::-webkit-scrollbar {
             width: 3px;
         }
@@ -72,8 +62,6 @@
             background: var(--text-muted);
             border-radius: 99px;
         }
-
-        /* ─── App Shell ─── */
         #app {
             display: flex;
             flex-direction: column;
@@ -84,14 +72,11 @@
             position: relative;
             overflow: hidden;
         }
-
         .status-bar {
             height: var(--safe-top);
             flex-shrink: 0;
             background: var(--bg-primary);
         }
-
-        /* ─── Header ─── */
         .app-header {
             display: flex;
             align-items: center;
@@ -101,7 +86,6 @@
             background: var(--bg-primary);
             z-index: 10;
         }
-
         .app-header .logo {
             display: flex;
             align-items: center;
@@ -110,7 +94,6 @@
             font-size: 20px;
             letter-spacing: -0.5px;
         }
-
         .app-header .logo .icon {
             width: 36px;
             height: 36px;
@@ -123,12 +106,10 @@
             font-weight: 800;
             color: #000;
         }
-
         .app-header .actions {
             display: flex;
             gap: 6px;
         }
-
         .app-header .actions button {
             background: var(--bg-card);
             border: none;
@@ -143,13 +124,10 @@
             align-items: center;
             justify-content: center;
         }
-
         .app-header .actions button:active {
             background: var(--bg-input);
             transform: scale(0.94);
         }
-
-        /* ─── Main Content ─── */
         .main-content {
             flex: 1;
             overflow-y: auto;
@@ -158,17 +136,13 @@
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
         }
-
-        /* ─── Screens ─── */
         .screen {
             display: none;
             animation: fadeSlide 0.35s ease forwards;
         }
-
         .screen.active {
             display: block;
         }
-
         @keyframes fadeSlide {
             0% {
                 opacity: 0;
@@ -179,8 +153,6 @@
                 transform: translateY(0);
             }
         }
-
-        /* ─── Balance Card ─── */
         .balance-card {
             background: var(--bg-card);
             border-radius: var(--radius);
@@ -190,7 +162,6 @@
             position: relative;
             overflow: hidden;
         }
-
         .balance-card::after {
             content: '';
             position: absolute;
@@ -202,7 +173,6 @@
             border-radius: 50%;
             pointer-events: none;
         }
-
         .balance-card .label {
             font-size: 13px;
             color: var(--text-secondary);
@@ -211,7 +181,6 @@
             position: relative;
             z-index: 1;
         }
-
         .balance-card .amount {
             font-size: 42px;
             font-weight: 700;
@@ -220,14 +189,12 @@
             position: relative;
             z-index: 1;
         }
-
         .balance-card .amount .currency {
             font-size: 26px;
             font-weight: 600;
             color: var(--text-secondary);
             margin-right: 2px;
         }
-
         .balance-card .change {
             display: inline-flex;
             align-items: center;
@@ -241,20 +208,16 @@
             position: relative;
             z-index: 1;
         }
-
         .balance-card .change.negative {
             background: #ff3b3022;
             color: var(--red);
         }
-
-        /* ─── Quick Actions ─── */
         .quick-actions {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             gap: 8px;
             margin: 4px 0 20px;
         }
-
         .quick-actions .action {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -269,24 +232,20 @@
             gap: 4px;
             position: relative;
         }
-
         .quick-actions .action:active {
             transform: scale(0.94);
             background: var(--bg-input);
         }
-
         .quick-actions .action .emoji {
             font-size: 22px;
             line-height: 1;
         }
-
         .quick-actions .action .label {
             font-size: 10px;
             font-weight: 500;
             color: var(--text-secondary);
             letter-spacing: 0.2px;
         }
-
         .quick-actions .action .badge {
             position: absolute;
             top: -4px;
@@ -300,21 +259,16 @@
             border: 1px solid var(--bg-primary);
             pointer-events: none;
         }
-
         .quick-actions .action.ad-action {
             border-color: var(--gold);
             background: var(--gold-dim);
         }
-
         .quick-actions .action.ad-action .label {
             color: var(--gold);
         }
-
         .quick-actions .action.ad-action:active {
             background: #f5a62344;
         }
-
-        /* ─── Ad Card ─── */
         .ad-card {
             background: linear-gradient(145deg, #1c1c1e, #141414);
             border-radius: var(--radius);
@@ -324,7 +278,6 @@
             position: relative;
             overflow: hidden;
         }
-
         .ad-card::before {
             content: '💰';
             position: absolute;
@@ -334,7 +287,6 @@
             opacity: 0.08;
             transform: rotate(15deg);
         }
-
         .ad-card .title {
             font-size: 18px;
             font-weight: 700;
@@ -343,13 +295,11 @@
             align-items: center;
             gap: 8px;
         }
-
         .ad-card .subtitle {
             font-size: 13px;
             color: var(--text-secondary);
             margin: 4px 0 14px;
         }
-
         .ad-card .reward-row {
             display: flex;
             align-items: center;
@@ -357,19 +307,16 @@
             gap: 12px;
             flex-wrap: wrap;
         }
-
         .ad-card .reward-amount {
             font-size: 28px;
             font-weight: 700;
             color: var(--gold);
         }
-
         .ad-card .reward-amount small {
             font-size: 16px;
             font-weight: 400;
             color: var(--text-secondary);
         }
-
         .ad-card .cooldown {
             font-size: 12px;
             color: var(--text-muted);
@@ -377,7 +324,6 @@
             align-items: center;
             gap: 4px;
         }
-
         .btn-ad {
             background: var(--gold);
             color: #000;
@@ -395,17 +341,14 @@
             min-width: 140px;
             justify-content: center;
         }
-
         .btn-ad:active {
             transform: scale(0.95);
         }
-
         .btn-ad:disabled {
             opacity: 0.5;
             pointer-events: none;
             filter: grayscale(0.4);
         }
-
         .btn-ad .spinner {
             width: 18px;
             height: 18px;
@@ -414,58 +357,73 @@
             border-radius: 50%;
             animation: spin 0.7s linear infinite;
         }
-
         @keyframes spin {
             to {
                 transform: rotate(360deg);
             }
         }
-
         .ad-stats {
             display: flex;
             gap: 16px;
             margin-top: 12px;
             padding-top: 12px;
             border-top: 1px solid var(--border);
+            flex-wrap: wrap;
         }
-
         .ad-stats .stat {
             font-size: 12px;
             color: var(--text-secondary);
         }
-
         .ad-stats .stat strong {
             color: var(--text-primary);
             font-weight: 600;
         }
-
-        /* ─── Section Header ─── */
+        /* Toggle for auto-mode */
+        .auto-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            margin-top: 6px;
+        }
+        .auto-toggle input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--gold);
+            cursor: pointer;
+        }
+        .auto-toggle .status {
+            font-weight: 600;
+        }
+        .auto-toggle .status.on {
+            color: var(--gold);
+        }
+        .auto-toggle .status.off {
+            color: var(--text-muted);
+        }
         .section-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin: 20px 0 12px;
         }
-
         .section-header h3 {
             font-size: 17px;
             font-weight: 600;
         }
-
         .section-header a {
             font-size: 13px;
             color: var(--text-secondary);
             text-decoration: none;
             font-weight: 500;
         }
-
-        /* ─── Transaction List ─── */
         .transaction-list {
             display: flex;
             flex-direction: column;
             gap: 2px;
         }
-
         .transaction-item {
             display: flex;
             align-items: center;
@@ -477,11 +435,9 @@
             cursor: pointer;
             transition: background var(--transition);
         }
-
         .transaction-item:active {
             background: var(--bg-input);
         }
-
         .transaction-item .icon {
             width: 44px;
             height: 44px;
@@ -492,7 +448,6 @@
             font-size: 18px;
             flex-shrink: 0;
         }
-
         .transaction-item .icon.green {
             background: var(--accent-dim);
             color: var(--accent);
@@ -513,17 +468,14 @@
             background: var(--gold-dim);
             color: var(--gold);
         }
-
         .transaction-item .info {
             flex: 1;
             min-width: 0;
         }
-
         .transaction-item .info .name {
             font-size: 15px;
             font-weight: 500;
         }
-
         .transaction-item .info .desc {
             font-size: 12px;
             color: var(--text-secondary);
@@ -532,14 +484,12 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-
         .transaction-item .amount {
             font-weight: 600;
             font-size: 15px;
             text-align: right;
             flex-shrink: 0;
         }
-
         .transaction-item .amount.positive {
             color: var(--accent);
         }
@@ -549,12 +499,9 @@
         .transaction-item .amount.gold {
             color: var(--gold);
         }
-
-        /* ─── Forms ─── */
         .form-group {
             margin-bottom: 18px;
         }
-
         .form-group label {
             display: block;
             font-size: 13px;
@@ -562,7 +509,6 @@
             color: var(--text-secondary);
             margin-bottom: 6px;
         }
-
         .form-group input,
         .form-group select,
         .form-group textarea {
@@ -578,31 +524,25 @@
             outline: none;
             -webkit-appearance: none;
         }
-
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
             border-color: var(--accent);
             box-shadow: 0 0 0 3px var(--accent-dim);
         }
-
         .form-group input::placeholder,
         .form-group textarea::placeholder {
             color: var(--text-muted);
         }
-
         .form-group textarea {
             resize: vertical;
             min-height: 80px;
         }
-
         .form-group .input-hint {
             font-size: 12px;
             color: var(--text-muted);
             margin-top: 4px;
         }
-
-        /* ─── Buttons ─── */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -620,44 +560,35 @@
             position: relative;
             overflow: hidden;
         }
-
         .btn:active {
             transform: scale(0.97);
         }
-
         .btn-primary {
             background: var(--accent);
             color: #000;
         }
-
         .btn-primary:active {
             background: #00c92e;
         }
-
         .btn-secondary {
             background: var(--bg-card);
             color: var(--text-primary);
             border: 1px solid var(--border);
         }
-
         .btn-secondary:active {
             background: var(--bg-input);
         }
-
         .btn-danger {
             background: var(--red);
             color: #fff;
         }
-
         .btn-danger:active {
             background: #e0352b;
         }
-
         .btn:disabled {
             opacity: 0.5;
             pointer-events: none;
         }
-
         .btn .spinner {
             width: 20px;
             height: 20px;
@@ -666,8 +597,6 @@
             border-radius: 50%;
             animation: spin 0.7s linear infinite;
         }
-
-        /* ─── Back Button ─── */
         .back-row {
             display: flex;
             align-items: center;
@@ -682,17 +611,13 @@
             border: none;
             font-family: inherit;
         }
-
         .back-row:active {
             color: var(--text-primary);
         }
-
         .back-row .arrow {
             font-size: 20px;
             line-height: 1;
         }
-
-        /* ─── Toast ─── */
         .toast {
             position: fixed;
             bottom: calc(var(--safe-bottom) + 100px);
@@ -714,12 +639,10 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
         }
-
         .toast.show {
             opacity: 1;
             transform: translateX(-50%) translateY(0);
         }
-
         .toast.success {
             border-color: var(--accent);
         }
@@ -729,8 +652,6 @@
         .toast.gold {
             border-color: var(--gold);
         }
-
-        /* ─── Bottom Navigation ─── */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -748,7 +669,6 @@
             -webkit-backdrop-filter: blur(20px);
             background: rgba(10, 10, 10, 0.92);
         }
-
         .bottom-nav .tab {
             display: flex;
             flex-direction: column;
@@ -766,30 +686,24 @@
             position: relative;
             min-width: 48px;
         }
-
         .bottom-nav .tab .icon {
             font-size: 22px;
             line-height: 1;
             transition: transform var(--transition);
         }
-
         .bottom-nav .tab .label {
             font-size: 9px;
             letter-spacing: 0.2px;
         }
-
         .bottom-nav .tab.active {
             color: var(--accent);
         }
-
         .bottom-nav .tab.active .icon {
             transform: scale(1.05);
         }
-
         .bottom-nav .tab:active .icon {
             transform: scale(0.88);
         }
-
         .bottom-nav .tab .badge {
             position: absolute;
             top: 0;
@@ -805,8 +719,6 @@
             align-items: center;
             justify-content: center;
         }
-
-        /* ─── Profile Screen ─── */
         .profile-avatar {
             width: 80px;
             height: 80px;
@@ -819,27 +731,23 @@
             font-size: 36px;
             margin: 0 auto 12px;
         }
-
         .profile-name {
             text-align: center;
             font-size: 20px;
             font-weight: 600;
         }
-
         .profile-username {
             text-align: center;
             font-size: 14px;
             color: var(--text-secondary);
             margin-bottom: 20px;
         }
-
         .profile-stats {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 8px;
             margin: 12px 0 20px;
         }
-
         .profile-stats .stat {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -847,52 +755,41 @@
             padding: 12px 6px;
             text-align: center;
         }
-
         .profile-stats .stat .number {
             font-size: 16px;
             font-weight: 700;
         }
-
         .profile-stats .stat .label {
             font-size: 10px;
             color: var(--text-secondary);
             margin-top: 2px;
         }
-
         .profile-stats .stat.gold-stat .number {
             color: var(--gold);
         }
-
-        /* ─── Misc ─── */
         .divider {
             height: 1px;
             background: var(--border);
             margin: 16px 0;
         }
-
         .empty-state {
             text-align: center;
             padding: 40px 20px;
             color: var(--text-secondary);
         }
-
         .empty-state .emoji {
             font-size: 48px;
             margin-bottom: 12px;
         }
-
         .empty-state .title {
             font-size: 16px;
             font-weight: 500;
             color: var(--text-primary);
         }
-
         .empty-state .desc {
             font-size: 13px;
             margin-top: 4px;
         }
-
-        /* ─── Responsive ─── */
         @media (max-width: 400px) {
             .balance-card .amount {
                 font-size: 34px;
@@ -929,13 +826,11 @@
                 min-width: unset;
             }
         }
-
         @media (max-width: 360px) {
             .quick-actions {
                 grid-template-columns: repeat(3, 1fr);
             }
         }
-
         @media (min-width: 481px) {
             #app {
                 border-left: 1px solid var(--border);
@@ -946,13 +841,9 @@
                 border-right: 1px solid var(--border);
             }
         }
-
-        /* ─── Haptic helper ─── */
         .haptic:active {
             transform: scale(0.96);
         }
-
-        /* ─── Ad loading overlay ─── */
         .ad-loading {
             display: none;
             position: fixed;
@@ -968,11 +859,9 @@
             gap: 16px;
             backdrop-filter: blur(8px);
         }
-
         .ad-loading.show {
             display: flex;
         }
-
         .ad-loading .spinner-big {
             width: 48px;
             height: 48px;
@@ -981,13 +870,11 @@
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
-
         .ad-loading .text {
             color: var(--text-secondary);
             font-size: 14px;
             font-weight: 500;
         }
-
         .ad-loading .text strong {
             color: var(--gold);
         }
@@ -995,23 +882,21 @@
 </head>
 <body>
 
-    <!-- ─── Ad Loading Overlay ─── -->
+    <!-- Ad Loading Overlay -->
     <div id="adLoading" class="ad-loading">
         <div class="spinner-big"></div>
         <div class="text">Loading <strong>reward ad</strong>…</div>
         <div style="font-size:12px;color:var(--text-muted);">Please wait a moment</div>
     </div>
 
-    <!-- ─── Toast ─── -->
+    <!-- Toast -->
     <div id="toast" class="toast"></div>
 
-    <!-- ─── App ─── -->
+    <!-- App -->
     <div id="app">
 
-        <!-- Status Bar -->
         <div class="status-bar"></div>
 
-        <!-- Header -->
         <header class="app-header">
             <div class="logo">
                 <div class="icon">$</div>
@@ -1023,13 +908,11 @@
             </div>
         </header>
 
-        <!-- Main Content -->
         <div class="main-content" id="mainContent">
 
-            <!-- ─── HOME SCREEN ─── -->
+            <!-- HOME SCREEN -->
             <div id="screen-home" class="screen active">
 
-                <!-- Balance -->
                 <div class="balance-card">
                     <div class="label">Total Balance</div>
                     <div class="amount">
@@ -1042,7 +925,6 @@
                     </div>
                 </div>
 
-                <!-- Quick Actions -->
                 <div class="quick-actions">
                     <div class="action" data-screen="send">
                         <span class="emoji">💸</span>
@@ -1067,7 +949,7 @@
                     </div>
                 </div>
 
-                <!-- Ad Card (prominent) -->
+                <!-- Ad Card (with auto-toggle) -->
                 <div class="ad-card" id="adCard">
                     <div class="title">🎬 Watch & Earn</div>
                     <div class="subtitle">Watch a short ad and get free money added to your balance instantly</div>
@@ -1084,13 +966,18 @@
                             <span>▶</span> Watch Now
                         </button>
                     </div>
+                    <!-- Auto-mode toggle -->
+                    <div class="auto-toggle">
+                        <input type="checkbox" id="autoToggle">
+                        <span>Auto‑watch <span class="status off" id="autoStatus">OFF</span></span>
+                    </div>
                     <div class="ad-stats">
                         <span class="stat">⏱️ <span id="cooldownDisplay">Ready</span></span>
                         <span class="stat">💰 Earned: <strong id="totalAdEarned">$0.00</strong></span>
+                        <span class="stat" id="autoCounter" style="display:none;">🔄 Auto: <strong id="autoCountNum">0</strong></span>
                     </div>
                 </div>
 
-                <!-- Recent Transactions -->
                 <div class="section-header">
                     <h3>Recent</h3>
                     <a href="#" id="viewAllLink">View all →</a>
@@ -1100,67 +987,58 @@
                 </div>
             </div>
 
-            <!-- ─── SEND SCREEN ─── -->
+            <!-- SEND SCREEN -->
             <div id="screen-send" class="screen">
                 <button class="back-row" data-back>
                     <span class="arrow">←</span> Back
                 </button>
                 <h2 style="font-size:22px;font-weight:700;margin-bottom:4px;">Send Money</h2>
                 <p style="color:var(--text-secondary);font-size:14px;margin-bottom:20px;">Send instantly to anyone</p>
-
                 <div class="form-group">
                     <label>Recipient</label>
                     <input type="text" id="sendRecipient" placeholder="Username, phone, or email" />
                 </div>
-
                 <div class="form-group">
                     <label>Amount</label>
                     <input type="number" id="sendAmount" placeholder="0.00" step="0.01" min="0.01" />
                     <div class="input-hint">Min: $0.01 · Max: $10,000.00</div>
                 </div>
-
                 <div class="form-group">
                     <label>Note <span style="color:var(--text-muted);font-weight:400;">(optional)</span></label>
                     <input type="text" id="sendNote" placeholder="What's this for?" maxlength="50" />
                 </div>
-
                 <button class="btn btn-primary" id="sendBtn">Send Money</button>
             </div>
 
-            <!-- ─── REQUEST SCREEN ─── -->
+            <!-- REQUEST SCREEN -->
             <div id="screen-request" class="screen">
                 <button class="back-row" data-back>
                     <span class="arrow">←</span> Back
                 </button>
                 <h2 style="font-size:22px;font-weight:700;margin-bottom:4px;">Request Money</h2>
                 <p style="color:var(--text-secondary);font-size:14px;margin-bottom:20px;">Request from anyone</p>
-
                 <div class="form-group">
                     <label>From</label>
                     <input type="text" id="requestFrom" placeholder="Username, phone, or email" />
                 </div>
-
                 <div class="form-group">
                     <label>Amount</label>
                     <input type="number" id="requestAmount" placeholder="0.00" step="0.01" min="0.01" />
                 </div>
-
                 <div class="form-group">
                     <label>Note <span style="color:var(--text-muted);font-weight:400;">(optional)</span></label>
                     <input type="text" id="requestNote" placeholder="What's this for?" maxlength="50" />
                 </div>
-
                 <button class="btn btn-primary" id="requestBtn">Request Money</button>
             </div>
 
-            <!-- ─── HISTORY SCREEN ─── -->
+            <!-- HISTORY SCREEN -->
             <div id="screen-history" class="screen">
                 <button class="back-row" data-back>
                     <span class="arrow">←</span> Back
                 </button>
                 <h2 style="font-size:22px;font-weight:700;margin-bottom:4px;">Transaction History</h2>
                 <p style="color:var(--text-secondary);font-size:14px;margin-bottom:16px;">All your transactions</p>
-
                 <div style="display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;">
                     <button class="filter-btn" data-filter="all" style="background:var(--accent);color:#000;border:none;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:600;cursor:pointer;">All</button>
                     <button class="filter-btn" data-filter="received" style="background:var(--bg-card);color:var(--text-secondary);border:1px solid var(--border);padding:6px 14px;border-radius:99px;font-size:12px;font-weight:500;cursor:pointer;">Received</button>
@@ -1168,22 +1046,19 @@
                     <button class="filter-btn" data-filter="requested" style="background:var(--bg-card);color:var(--text-secondary);border:1px solid var(--border);padding:6px 14px;border-radius:99px;font-size:12px;font-weight:500;cursor:pointer;">Requests</button>
                     <button class="filter-btn" data-filter="ad" style="background:var(--bg-card);color:var(--text-secondary);border:1px solid var(--border);padding:6px 14px;border-radius:99px;font-size:12px;font-weight:500;cursor:pointer;">🎬 Ads</button>
                 </div>
-
                 <div class="transaction-list" id="allTransactions">
                     <!-- rendered by JS -->
                 </div>
             </div>
 
-            <!-- ─── PROFILE SCREEN ─── -->
+            <!-- PROFILE SCREEN -->
             <div id="screen-profile" class="screen">
                 <button class="back-row" data-back>
                     <span class="arrow">←</span> Back
                 </button>
-
                 <div class="profile-avatar">👤</div>
                 <div class="profile-name" id="profileName">Alex Rivera</div>
                 <div class="profile-username" id="profileUsername">@alex_cash</div>
-
                 <div class="profile-stats">
                     <div class="stat">
                         <div class="number" id="statTransactions">0</div>
@@ -1202,19 +1077,15 @@
                         <div class="label">🎬 Ad Earnings</div>
                     </div>
                 </div>
-
                 <div class="divider"></div>
-
                 <button class="btn btn-secondary" style="margin-bottom:10px;" id="shareProfileBtn">📤 Share Profile</button>
                 <button class="btn btn-secondary" style="margin-bottom:10px;" id="resetDataBtn">🔄 Reset Demo Data</button>
                 <button class="btn btn-danger" id="logoutBtn">🚪 Log Out</button>
-
                 <p style="text-align:center;font-size:11px;color:var(--text-muted);margin-top:20px;">Cash App TMA v2.0 · Earn with Ads</p>
             </div>
 
         </div>
 
-        <!-- ─── Bottom Navigation ─── -->
         <nav class="bottom-nav" id="bottomNav">
             <button class="tab active" data-tab="home">
                 <span class="icon">🏠</span>
@@ -1270,13 +1141,13 @@
                 { id: 't1', type: 'received', from: 'Sarah K.', amount: 45.00, note: 'Coffee ☕', date: Date.now() -
                         1000 * 60 * 15 },
                 { id: 't2', type: 'sent', from: 'You', to: 'Mike R.', amount: 12.50, note: 'Lunch 🍜', date: Date
-                    .now() - 1000 * 60 * 60 * 2 },
+                        .now() - 1000 * 60 * 60 * 2 },
                 { id: 't3', type: 'received', from: 'Emma W.', amount: 120.00, note: 'Design work', date: Date.now() -
                         1000 * 60 * 60 * 5 },
                 { id: 't4', type: 'sent', from: 'You', to: 'Jake P.', amount: 8.75, note: 'Split bill', date: Date
-                    .now() - 1000 * 60 * 60 * 24 },
+                        .now() - 1000 * 60 * 60 * 24 },
                 { id: 't5', type: 'received', from: 'Lisa M.', amount: 200.00, note: 'Freelance payment', date: Date
-                    .now() - 1000 * 60 * 60 * 48 },
+                        .now() - 1000 * 60 * 60 * 48 },
                 { id: 't6', type: 'requested', from: 'David C.', amount: 30.00, note: 'Dinner 🍕', date: Date.now() -
                     1000 * 60 * 60 * 72 },
                 { id: 't7', type: 'sent', from: 'You', to: 'Anna B.', amount: 5.00, note: '🎁', date: Date.now() -
@@ -1287,7 +1158,6 @@
                 username: '@alex_cash',
                 avatar: '👤',
             },
-            // Ad rewards state
             adRewards: {
                 totalEarned: 0,
                 countToday: 0,
@@ -1295,6 +1165,9 @@
                 cooldownSeconds: 30,
                 dayStart: new Date().setHours(0, 0, 0, 0),
             },
+            // New: auto-mode state
+            autoMode: false,
+            autoCount: 0,
         };
 
         // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1306,20 +1179,20 @@
                 const raw = localStorage.getItem(STORAGE_KEY);
                 if (raw) {
                     const data = JSON.parse(raw);
-                    // ensure transactions are sorted
                     if (data.transactions) {
                         data.transactions.sort((a, b) => b.date - a.date);
                     }
-                    // ensure adRewards exists
                     if (!data.adRewards) {
                         data.adRewards = JSON.parse(JSON.stringify(defaultState.adRewards));
                     }
-                    // reset daily count if new day
                     const today = new Date().setHours(0, 0, 0, 0);
                     if (data.adRewards.dayStart !== today) {
                         data.adRewards.countToday = 0;
                         data.adRewards.dayStart = today;
                     }
+                    // Ensure auto fields exist
+                    if (data.autoMode === undefined) data.autoMode = false;
+                    if (data.autoCount === undefined) data.autoCount = 0;
                     return data;
                 }
             } catch (_) { /* ignore */ }
@@ -1397,6 +1270,7 @@
         let currentFilter = 'all';
         let adCooldownTimer = null;
         let isAdLoading = false;
+        let autoScheduled = false; // to prevent multiple schedules
 
         // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         //  AD REWARD SYSTEM
@@ -1417,6 +1291,31 @@
             return getTimeRemaining(cooldownUntil);
         }
 
+        // ── Schedule next ad (auto-loop) ──
+        function scheduleNextAd() {
+            if (!state.autoMode) {
+                autoScheduled = false;
+                return;
+            }
+            if (autoScheduled) return; // already scheduled
+            const remaining = getCooldownRemaining();
+            const delay = Math.max(remaining * 1000, 1000); // at least 1s
+
+            autoScheduled = true;
+            setTimeout(() => {
+                autoScheduled = false;
+                // Check if still in auto mode and cooldown is over
+                if (state.autoMode && canWatchAd()) {
+                    // Trigger the ad
+                    watchAd();
+                } else if (state.autoMode) {
+                    // If not ready, reschedule (cooldown may have been reset)
+                    scheduleNextAd();
+                }
+            }, delay);
+        }
+
+        // ── UI updates ──
         function updateAdUI() {
             const btn = document.getElementById('watchAdBtn');
             const cooldownEl = document.getElementById('cooldownDisplay');
@@ -1424,36 +1323,62 @@
             const earnedEl = document.getElementById('totalAdEarned');
             const badgeEl = document.getElementById('adEarnedBadge');
             const navBadge = document.getElementById('adBadgeNav');
+            const autoToggle = document.getElementById('autoToggle');
+            const autoStatus = document.getElementById('autoStatus');
+            const autoCounter = document.getElementById('autoCounter');
+            const autoCountNum = document.getElementById('autoCountNum');
 
-            // Update count
             if (countEl) countEl.textContent = state.adRewards.countToday;
             if (earnedEl) earnedEl.textContent = formatCurrency(state.adRewards.totalEarned);
             if (badgeEl) badgeEl.textContent = '💰 +' + formatCurrency(state.adRewards.totalEarned) + ' from ads';
-
-            // Show nav badge if any ad earnings
             if (navBadge) {
                 navBadge.style.display = state.adRewards.totalEarned > 0 ? 'flex' : 'none';
                 navBadge.textContent = '✦';
             }
 
-            // Update button state
+            // Auto toggle
+            if (autoToggle) {
+                autoToggle.checked = state.autoMode;
+            }
+            if (autoStatus) {
+                autoStatus.textContent = state.autoMode ? 'ON' : 'OFF';
+                autoStatus.className = 'status ' + (state.autoMode ? 'on' : 'off');
+            }
+            if (autoCounter) {
+                autoCounter.style.display = state.autoMode ? 'inline' : 'none';
+            }
+            if (autoCountNum) {
+                autoCountNum.textContent = state.autoCount;
+            }
+
+            // Button state
             const canWatch = canWatchAd();
             if (btn) {
-                btn.disabled = !canWatch;
-                if (canWatch) {
-                    btn.innerHTML = '<span>▶</span> Watch Now';
-                    btn.style.opacity = '1';
+                if (isAdLoading) {
+                    btn.disabled = true;
+                    btn.innerHTML = '<span class="spinner"></span> Loading…';
                 } else {
-                    const remaining = getCooldownRemaining();
-                    btn.innerHTML = `<span>⏳</span> Wait ${remaining}s`;
-                    btn.style.opacity = '0.7';
+                    btn.disabled = !canWatch;
+                    if (state.autoMode) {
+                        btn.innerHTML = `<span>🔄</span> Auto‑watch active`;
+                        btn.style.opacity = '0.8';
+                    } else {
+                        if (canWatch) {
+                            btn.innerHTML = '<span>▶</span> Watch Now';
+                            btn.style.opacity = '1';
+                        } else {
+                            const remaining = getCooldownRemaining();
+                            btn.innerHTML = `<span>⏳</span> Wait ${remaining}s`;
+                            btn.style.opacity = '0.7';
+                        }
+                    }
                 }
             }
 
-            // Update cooldown display
+            // Cooldown display
             if (cooldownEl) {
                 if (canWatch) {
-                    cooldownEl.textContent = 'Ready to watch!';
+                    cooldownEl.textContent = state.autoMode ? '⏳ Auto‑ready' : 'Ready to watch!';
                     cooldownEl.style.color = 'var(--gold)';
                 } else {
                     const remaining = getCooldownRemaining();
@@ -1462,21 +1387,19 @@
                 }
             }
 
-            // Update stats in profile
+            // Profile stats
             const statAd = document.getElementById('statAdEarned');
             if (statAd) statAd.textContent = formatCurrency(state.adRewards.totalEarned);
-
-            // Update ad count in profile stats
-            // We'll handle this in renderProfileStats
         }
 
+        // ── Watch Ad (triggered by click or auto) ──
         function watchAd() {
             if (!canWatchAd()) {
                 showToast('Please wait for cooldown', 'error');
                 return;
             }
 
-            // Check if the ad SDK is available
+            // Check SDK
             if (typeof window.showRewardAd !== 'function') {
                 showToast('Ad SDK not loaded. Please try again.', 'error');
                 console.warn('showRewardAd not available');
@@ -1487,7 +1410,6 @@
             const loadingEl = document.getElementById('adLoading');
             if (loadingEl) loadingEl.classList.add('show');
 
-            // Disable button
             const btn = document.getElementById('watchAdBtn');
             if (btn) {
                 btn.disabled = true;
@@ -1495,24 +1417,21 @@
             }
 
             try {
-                // Call the ad SDK
                 window.showRewardAd(function(res) {
-                    // Hide loading
                     if (loadingEl) loadingEl.classList.remove('show');
                     isAdLoading = false;
 
-                    // Log the response for debugging
                     console.log('Ad response:', res);
 
-                    // Check if the ad was completed or closed
-                    // Both "completed" and "closed" grant the reward per user's spec
                     if (res.status === 'completed' || res.status === 'closed') {
-                        // Grant reward
                         grantAdReward();
                     } else {
-                        // Other status (e.g., "error", "cancelled")
                         showToast('Ad was not completed. Try again.', 'error');
                         updateAdUI();
+                        // If auto-mode is on, schedule next attempt after a short delay
+                        if (state.autoMode) {
+                            setTimeout(() => scheduleNextAd(), 5000);
+                        }
                     }
                 });
             } catch (err) {
@@ -1521,17 +1440,23 @@
                 isAdLoading = false;
                 showToast('Failed to load ad. Please try again.', 'error');
                 updateAdUI();
+                if (state.autoMode) {
+                    setTimeout(() => scheduleNextAd(), 5000);
+                }
             }
         }
 
         function grantAdReward() {
-            // Add reward to balance
             state.balance += AD_REWARD_AMOUNT;
             state.adRewards.totalEarned += AD_REWARD_AMOUNT;
             state.adRewards.countToday += 1;
             state.adRewards.lastWatchTime = Date.now();
 
-            // Add transaction entry
+            // Auto count
+            if (state.autoMode) {
+                state.autoCount += 1;
+            }
+
             state.transactions.unshift({
                 id: generateId(),
                 type: 'ad',
@@ -1543,22 +1468,20 @@
             });
 
             saveState(state);
-
-            // Show success
             showToast('🎉 You earned ' + formatCurrency(AD_REWARD_AMOUNT) + ' from watching an ad!', 'gold');
 
-            // Update UI
             renderAll();
             updateAdUI();
 
-            // Haptic feedback
             try { tg?.HapticFeedback?.impactOccurred('medium'); } catch (_) {}
 
-            // Start cooldown timer
+            // Start cooldown timer for UI
             startCooldownTimer();
 
-            // Refresh the ad UI after cooldown
-            setTimeout(() => updateAdUI(), 1000);
+            // If auto-mode is on, schedule the next ad after cooldown
+            if (state.autoMode) {
+                scheduleNextAd();
+            }
         }
 
         function startCooldownTimer() {
@@ -1569,18 +1492,41 @@
                     clearInterval(adCooldownTimer);
                     updateAdUI();
                 } else {
-                    // Update the cooldown display
+                    // Update display
                     const cooldownEl = document.getElementById('cooldownDisplay');
                     if (cooldownEl) {
                         cooldownEl.textContent = `⏱️ ${remaining}s cooldown`;
                         cooldownEl.style.color = 'var(--text-muted)';
                     }
                     const btn = document.getElementById('watchAdBtn');
-                    if (btn && btn.disabled) {
+                    if (btn && btn.disabled && !isAdLoading) {
                         btn.innerHTML = `<span>⏳</span> Wait ${remaining}s`;
                     }
                 }
             }, 1000);
+        }
+
+        // ── Toggle auto-mode ──
+        function toggleAutoMode() {
+            state.autoMode = !state.autoMode;
+            if (!state.autoMode) {
+                // Stop any scheduled auto
+                autoScheduled = false;
+                // Reset auto count? Maybe keep it for record.
+                // Do not reset autoCount.
+            } else {
+                // If auto-mode turned on, check if we can start immediately
+                if (canWatchAd()) {
+                    // Trigger ad immediately
+                    watchAd();
+                } else {
+                    // Schedule after cooldown
+                    scheduleNextAd();
+                }
+            }
+            saveState(state);
+            updateAdUI();
+            showToast(state.autoMode ? '🔄 Auto‑watch ON' : '⏸️ Auto‑watch OFF', 'success');
         }
 
         // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1599,7 +1545,6 @@
         function renderBalance() {
             const el = document.getElementById('balanceDisplay');
             if (el) el.textContent = state.balance.toFixed(2);
-
             const badge = document.getElementById('changeBadge');
             if (badge) {
                 const change = ((state.balance - 1000) / 1000 * 100).toFixed(1);
@@ -1705,7 +1650,7 @@
             const total = state.transactions.length;
             const sent = state.transactions.filter(tx => tx.type === 'sent').reduce((sum, tx) => sum + tx.amount, 0);
             const received = state.transactions.filter(tx => tx.type === 'received').reduce((sum, tx) => sum + tx.amount,
-            0);
+                0);
 
             document.getElementById('statTransactions').textContent = total;
             document.getElementById('statSent').textContent = formatCurrency(sent);
@@ -1861,13 +1806,15 @@
         function resetDemoData() {
             if (confirm('Reset all demo data?')) {
                 state = JSON.parse(JSON.stringify(defaultState));
-                // Reset daily counter
                 state.adRewards.dayStart = new Date().setHours(0, 0, 0, 0);
+                state.autoMode = false;
+                state.autoCount = 0;
                 saveState(state);
                 renderAll();
                 navigateTo('home');
                 showToast('Demo data reset', 'success');
                 clearInterval(adCooldownTimer);
+                autoScheduled = false;
                 updateAdUI();
             }
         }
@@ -1876,11 +1823,14 @@
             if (confirm('Log out?')) {
                 state = JSON.parse(JSON.stringify(defaultState));
                 state.adRewards.dayStart = new Date().setHours(0, 0, 0, 0);
+                state.autoMode = false;
+                state.autoCount = 0;
                 saveState(state);
                 renderAll();
                 navigateTo('home');
                 showToast('Logged out', 'success');
                 clearInterval(adCooldownTimer);
+                autoScheduled = false;
                 updateAdUI();
                 try { tg?.close(); } catch (_) {}
             }
@@ -1910,7 +1860,6 @@
         // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
         function init() {
-            // Reset daily counter if needed
             const today = new Date().setHours(0, 0, 0, 0);
             if (state.adRewards.dayStart !== today) {
                 state.adRewards.countToday = 0;
@@ -1920,7 +1869,7 @@
 
             renderAll();
 
-            // ── Bottom Nav ──
+            // Bottom Nav
             document.querySelectorAll('.bottom-nav .tab').forEach(tab => {
                 tab.addEventListener('click', () => {
                     const screen = tab.dataset.tab;
@@ -1929,7 +1878,7 @@
                 });
             });
 
-            // ── Quick Actions ──
+            // Quick Actions
             document.querySelectorAll('.quick-actions .action').forEach(el => {
                 el.addEventListener('click', () => {
                     const screen = el.dataset.screen;
@@ -1937,32 +1886,27 @@
                 });
             });
 
-            // ── Watch Ad Action (quick action) ──
             document.getElementById('watchAdAction')?.addEventListener('click', watchAd);
-
-            // ── Watch Ad Button ──
             document.getElementById('watchAdBtn')?.addEventListener('click', watchAd);
 
-            // ── Back buttons ──
+            // Auto-toggle
+            document.getElementById('autoToggle')?.addEventListener('change', toggleAutoMode);
+
+            // Back buttons
             document.querySelectorAll('[data-back]').forEach(el => {
                 el.addEventListener('click', () => {
                     navigateTo('home');
                 });
             });
 
-            // ── View All Link ──
             document.getElementById('viewAllLink')?.addEventListener('click', (e) => {
                 e.preventDefault();
                 navigateTo('history');
             });
 
-            // ── Send Button ──
             document.getElementById('sendBtn')?.addEventListener('click', sendMoney);
-
-            // ── Request Button ──
             document.getElementById('requestBtn')?.addEventListener('click', requestMoney);
 
-            // ── Filter Buttons ──
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     currentFilter = btn.dataset.filter;
@@ -1971,12 +1915,10 @@
                 });
             });
 
-            // ── Profile Actions ──
             document.getElementById('resetDataBtn')?.addEventListener('click', resetDemoData);
             document.getElementById('logoutBtn')?.addEventListener('click', logout);
             document.getElementById('shareProfileBtn')?.addEventListener('click', shareProfile);
 
-            // ── Settings / Notif ──
             document.getElementById('settingsBtn')?.addEventListener('click', () => {
                 showToast('⚙️ Settings coming soon', 'success');
             });
@@ -1989,7 +1931,6 @@
                 }
             });
 
-            // ── Keyboard: Enter to submit ──
             document.getElementById('sendAmount')?.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') sendMoney();
             });
@@ -1997,7 +1938,6 @@
                 if (e.key === 'Enter') requestMoney();
             });
 
-            // ── Telegram back button ──
             try {
                 if (tg) {
                     tg.BackButton.onClick(() => {
@@ -2018,7 +1958,6 @@
                 }
             } catch (_) {}
 
-            // ── Click on transaction items ──
             document.addEventListener('click', (e) => {
                 const item = e.target.closest('.transaction-item');
                 if (item) {
@@ -2037,7 +1976,6 @@
                 }
             });
 
-            // ── Safe areas ──
             const updateSafeAreas = () => {
                 const safeBottom = window.innerHeight - document.documentElement.clientHeight;
                 document.documentElement.style.setProperty('--safe-bottom', Math.max(safeBottom, 20) + 'px');
@@ -2045,22 +1983,32 @@
             updateSafeAreas();
             window.addEventListener('resize', updateSafeAreas);
 
-            // ── Start cooldown timer if needed ──
+            // If auto-mode was saved as ON, resume scheduling
+            if (state.autoMode) {
+                if (canWatchAd()) {
+                    // Immediately watch if possible
+                    watchAd();
+                } else {
+                    scheduleNextAd();
+                }
+            }
+
+            // Start cooldown timer if needed
             if (!canWatchAd()) {
                 startCooldownTimer();
             }
 
-            console.log('💰 Cash App TMA v2.0 with Ad Rewards ready');
+            console.log('💰 Cash App TMA v2.0 with Auto‑Loop Ad Rewards ready');
             console.log('📊 Ad SDK available:', typeof window.showRewardAd === 'function');
         }
 
-        // ── Init ──
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', init);
         } else {
             init();
         }
     </script>
-
 </body>
-</html>                                                                             
+</html>            
+        
+                                                    
